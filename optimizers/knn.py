@@ -26,7 +26,7 @@ class KNNEst:
         # e1 = time.time()
 
         r1 = np.linalg.norm(ys - y1) ** 2
-        # l1 = r1 + lamda * np.linalg.norm(b1, ord=1) # FIXME: what is loss? Sum of distances to nearest neighbors?
+        # l1 = r1 + lamda * np.linalg.norm(b1, ord=1) # FIXME: loss for KNN? Sum of distances to nearest neighbors?
         print('KNN:')
         print('rss: %.5f' % r1)
         # print('loss: %.5f' % l1)
@@ -34,7 +34,7 @@ class KNNEst:
         # print('time: %f' % (e1 - s1))
         print()
 
-        return fit, r1, y1
+        return fit, r1, y1 # FIXME: what arguments should I return to make the docs flow together? 
 
 KNNOpt = KNNEst
 
