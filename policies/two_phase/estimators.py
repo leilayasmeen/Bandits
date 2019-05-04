@@ -165,6 +165,6 @@ class KNNEstimator(LinearEstimator):  # FIXME
     def __getitem__(self, arm):
         if self.dirty[arm]:
             xs, ys = self.obs[arm].get_obs()
-            self.arms[arm], _ = self.opts[arm].optimize(xs, ys, kn = 5) # FIXME: Unless kn = 1
+            self.arms[arm], _ = self.opts[arm].optimize(xs, ys, kn = 5) # FIXME: Unless kn = 1, error term
             self.dirty[arm] = 0
         return self.arms[arm]

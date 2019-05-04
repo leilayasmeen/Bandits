@@ -15,7 +15,7 @@ class KNNEst:
         scaler.fit(xs)
         xsscaled = scaler.transform(X=xs)
 
-        #rbfdist = distance_metrics.rbf_kernel(xsscaled)
+        # rbfdist = distance_metrics.rbf_kernel(xsscaled)
 
         # calculate "kn"-nearest neighbor groups
         # neigh = KNR(n_neighbors=kn, weights='distance', metric=rbfdist)
