@@ -43,7 +43,7 @@ def create_knn_bandit(k, d, h, q):  # FIXME
     f_est = Estimator(k, d, Opt)
     a_est = Estimator(k, d, Opt)
 
-    #strategy = Strategy(k, q)
+    # strategy = Strategy(k, q)
     strategy = Strategy(k, Strategy.pow_prob(q, -1))
     selector = Selector(f_est, h)
 

@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.neighbors import KNeighborsRegressor as KNR
 from sklearn.preprocessing import StandardScaler
-#from sklearn.metrics import pairwise as distance_metrics
+# from sklearn.metrics import pairwise as distance_metrics
 
 class KNNEst:
 
@@ -20,7 +20,7 @@ class KNNEst:
         # calculate "kn"-nearest neighbor groups
         # neigh = KNR(n_neighbors=kn, weights='distance', metric=rbfdist)
         neigh = KNR(n_neighbors=kn, weights='distance')
-        fit = neigh.fit(xsscaled,ys)
+        fit = neigh.fit(xsscaled, ys)
         y1 = neigh.predict(xsscaled)  # FIXME: you predict on the same data that you trained the KNN model on?
 
         # e1 = time.time()
@@ -34,7 +34,7 @@ class KNNEst:
         # print('time: %f' % (e1 - s1))
         print()
 
-        return fit, r1, y1 # FIXME: what arguments should I return to make the docs flow together? 
+        return fit, r1, y1 # FIXME: what arguments should I return to make the docs flow together?
 
 KNNOpt = KNNEst
 
