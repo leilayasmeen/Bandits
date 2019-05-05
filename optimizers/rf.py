@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.ensemble import RandomForestRegressor as RFReg
+from sklearn.ensemble import RandomForestRegressor
 
 
 class RFEst:
@@ -9,16 +9,17 @@ class RFEst:
 
     def optimize(self, xs, ys, max_depth=5, random_state=0, n_estimators=100):
 
-        regr = RandomForestRegressor(max_depth, random_state, n_estimators)
+        regr = RandomForestRegressor()
 
-        estfit = regr.fit(xs,ys)
-        estpred = regr.pred(xs,ys)
+        estfit = regr.fit(xs,ys, max_depth, random_state, n_estimators)
+        y1 = regr.pred(xs, ys)
+        r1 = np.linalg.norm(ys - y1) ** 2
 
-        return estfit, estpred
+        return estfit, r1, y1
 
 RFOpt = RFEst
 
-def __main__(): # Set the estimated y-value for each x observation using the random forest
+def __main__():
     import time
 
     np.random.seed(3141592657)
@@ -34,17 +35,12 @@ def __main__(): # Set the estimated y-value for each x observation using the ran
 
     opt1 = RFEst()
     s1 = time.time()
-    estimated_fit, y1 = opt1.optimize(xs, ys, max_depth, random_state, n_estimators)
-    # TOCHECK: you predict on the same data that you trained the RF model on?
+    estimated_fit, r1, y1 = opt1.optimize(xs, ys)
 
     e1 = time.time()
 
     r1 = np.linalg.norm(ys - y1) ** 2
-    #l1 = r1 + lamda * np.linalg.norm(b1, ord=1) # TOCHECK: what would loss be for KNN?
-    print('KNN:')
-    print('rss: %.5f' % r1)
-    #print('loss: %.5f' % l1)
-    #print('l1 dist: %.5f' % np.linalg.norm(b1 - b))
+    print('Random Forest rss: %.5f' % r1)
     print('time: %f' % (e1 - s1))
     print()
 

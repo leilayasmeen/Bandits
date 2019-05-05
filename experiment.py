@@ -56,13 +56,15 @@ def create_rf_bandit(k, d, h, q):  # FIXME
     from policies.two_phase import TwoPhaseBandit
     from policies.two_phase import RFEstimator as Estimator
     from policies.two_phase import ThresholdSelector as Selector
-    from policies.two_phase import DeterministicStrategy as Strategy
+    # from policies.two_phase import DeterministicStrategy as Strategy
+    from policies.two_phase import RandomStrategy as Strategy
     from optimizers import RFOpt as Opt
 
     f_est = Estimator(k, d, Opt)
     a_est = Estimator(k, d, Opt)
 
-    strategy = Strategy(k, q)
+    # strategy = Strategy(k, q)
+    strategy = Strategy(k, Strategy.pow_prob(q, -1))
     selector = Selector(f_est, h)
 
     policy = TwoPhaseBandit(k, selector, strategy, f_est, a_est)
@@ -249,7 +251,7 @@ def run_all(env, horizon):
         # 'thompson': create_thompson_sampling(k, d, sd),
         'lasso-bandit': create_lasso_bandit(k, d, h, 1),
         'knn': create_knn_bandit(k, d, h, 1), # FIXME
-        # 'rf': create_rf_bandit(k, d, h, 1), # FIXME
+        #  'rf': create_rf_bandit(k, d, h, 1), # FIXME
     }
 
     elapsed = {name: 0 for name in algorithms}
