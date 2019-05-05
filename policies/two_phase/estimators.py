@@ -48,30 +48,16 @@ class BanditEstimator:
         return gen()
 
 
-# class LinearEstimator(BanditEstimator):
-#
-#     @abc.abstractmethod
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#
-#     def predict_reward(self, arm: int, spec: CtxSpec):
-#         ctx = spec.ctx
-#
-#         return ctx @ self[arm]
-
-
 class LinearEstimator(BanditEstimator):
 
     @abc.abstractmethod
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    if parametric == 1:
-        def predict_reward(self, arm: int, spec: CtxSpec):
-            ctx = spec.ctx
-            return ctx @ self[arm]
-    else:
-         pass
+    def predict_reward(self, arm: int, spec: CtxSpec):
+        ctx = spec.ctx
+
+        return ctx @ self[arm]
 
 class ConfidenceEstimator(BanditEstimator):
 
@@ -159,39 +145,6 @@ class LassoEstimator(LinearEstimator):
             self.arms[arm], _ = self.opts[arm].optimize(xs, ys, lamda = 25) # this calculates estimate for that arm
             self.dirty[arm] = 0
         return self.arms[arm]
-
-
-# class KNNEstimator(LinearEstimator):  # FIXME
-#
-#     def __init__(self, k, d, opt_class):
-#         super().__init__(k, d)
-#
-#         self.obs = [DataStore(d) for _ in range(k)]
-#         self.opts = [opt_class() for _ in range(k)]
-#         self.arms = np.zeros((k, d))
-#         self.dirty = np.zeros((k, ))
-#
-#     def add_obs(self, feedback: CtxFb):
-#         arm = feedback.arm
-#         ctx = feedback.ctx
-#         rew = feedback.rew
-#
-#         self.obs[arm].add_obs(ctx, rew)
-#         self.dirty[arm] = 1
-#
-#     def __getitem__(self, arm):
-#         if self.dirty[arm]:
-#             xs, ys = self.obs[arm].get_obs()
-#             if xs.shape[0] <= 5:
-#                 if xs.shape[0] == 1:
-#                     kn_val = 1
-#                 else:
-#                     kn_val = xs.shape[0] - 1
-#             else:
-#                 kn_val = 5
-#             self.arms[arm], _ = self.opts[arm].optimize(xs, ys, kn = kn_val)
-#             self.dirty[arm] = 0
-#         return self.arms[arm]
 
 class KNNEstimator(LinearEstimator):  # FIXME: this function needs work
 
