@@ -34,7 +34,7 @@ class KNNEst:
         # print('time: %f' % (e1 - s1))
         # print()
 
-        return fit, r1, y1 # FIXME: what arguments should I return to make the docs flow together?
+        return fit, r1 # FIXME: what arguments should I return to make the docs flow together?
 
 KNNOpt = KNNEst
 
