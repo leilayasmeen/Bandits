@@ -151,21 +151,22 @@ class KNNEstimator(BanditEstimator):  # FIXME: this function needs work
     def __init__(self, k, d):
         super().__init__(k, d)
 
-        self.obs = [DataStore(d) for _ in range(k)]
-        self.dirty = np.zeros((k, ))
+        self.xs = [[] for _ in range(k)]
+        self.ys = [[] for _ in range(k)]
 
     def add_obs(self, feedback: CtxFb):
         arm = feedback.arm
         ctx = feedback.ctx
         rew = feedback.rew
 
-        self.obs[arm].add_obs(ctx, rew)
-        self.dirty[arm] = 1
+        self.xs[arm].append(ctx)
+        self.ys[arm].append(rew)
 
     def predict_reward(self, arm: int, spec: CtxSpec):
-        xs, ys = self.obs[arm].get_obs()
+        xs = self.xs[arm]
+        ys = self.ys[arm]
 
-        if xs.shape[0] <= 5:
+        if len(xs) <= 5:
             return 0
         else:
             ctx = spec.ctx

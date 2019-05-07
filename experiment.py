@@ -11,13 +11,13 @@ def create_env(file, sd):
     from envs import ContextualEnv
 
     # arms = np.loadtxt(file, delimiter=',')
-    arms = npr.normal(size=(20, 5))
+    arms = npr.normal(size=(5, 2))  # use this to set k, then d
 
     return ContextualEnv(arms, sd)
 
 
 def create_ols_bandit(k, d, h, q):
-    from policies.two_phase import TwoPhaseBandit
+    from policies.two_phase import TwoPhaseBandi
     from policies.two_phase import OlsEstimator as Estimator
     from policies.two_phase import ThresholdSelector as Selector
     from policies.two_phase import DeterministicStrategy as Strategy
@@ -33,7 +33,7 @@ def create_ols_bandit(k, d, h, q):
     return policy
 
 
-def create_knn_bandit(k, d, h, q):  # FIXME
+def create_knn_bandit(k, d, h, q):
     from policies.two_phase import TwoPhaseBandit
     from policies.two_phase.estimators import KNNEstimator as Estimator
     from policies.two_phase import ThresholdSelector as Selector
@@ -330,7 +330,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--arms', type=str)  # , required=True)
     parser.add_argument('--sd', type=float, default=1.)
-    parser.add_argument('--run', type=int, default=5)  # change this to 1000 before obtaining final results
+    parser.add_argument('--run', type=int, default=2)  # change this to 1000 before obtaining final results
     parser.add_argument('--horizon', type=int, default=1000)
     parser.add_argument('--output', type=str, default=None)
     parser.add_argument('--seed', type=int, default=314159265)

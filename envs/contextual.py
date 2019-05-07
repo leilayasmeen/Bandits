@@ -28,9 +28,9 @@ class ContextualEnv(Environment):
         return self.max_rew - self.mean_rews
 
     def create_spec(self):
-        ctx = npr.randn(self.d) # K x d data generated here.
+        ctx = npr.randn(self.d)  # K x d data generated here.
 
-        self.mean_rews = self.arms.dot(ctx)
+        self.mean_rews = self.arms.dot(ctx) # adjust how data generated - e.g. relu
         self.max_rew = np.max(self.mean_rews)
 
         return ContextualSpec(self.t, ctx)
