@@ -10,9 +10,7 @@ from envs.contextual import ContextualSpec as CtxSpec
 from envs.contextual import ContextualFeedback as CtxFb
 
 from sklearn.neighbors import KNeighborsRegressor as KNR
-from sklearn.preprocessing import StandardScaler
 
-parametric = 1
 
 class BanditEstimator:
 
@@ -33,6 +31,18 @@ class BanditEstimator:
 
         return [self.predict_reward(arm, spec) for arm in range(self.k)]
 
+
+class LinearEstimator(BanditEstimator):
+
+    @abc.abstractmethod
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def predict_reward(self, arm: int, spec: CtxSpec):
+        ctx = spec.ctx
+
+        return ctx @ self[arm]
+
     @abc.abstractmethod
     def __getitem__(self, arm):
         pass
@@ -47,17 +57,6 @@ class BanditEstimator:
 
         return gen()
 
-
-class LinearEstimator(BanditEstimator):
-
-    @abc.abstractmethod
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def predict_reward(self, arm: int, spec: CtxSpec):
-        ctx = spec.ctx
-
-        return ctx @ self[arm]
 
 class ConfidenceEstimator(BanditEstimator):
 
@@ -146,16 +145,13 @@ class LassoEstimator(LinearEstimator):
             self.dirty[arm] = 0
         return self.arms[arm]
 
-class KNNEstimator(LinearEstimator):  # FIXME: this function needs work
 
-    parametric = 0
+class KNNEstimator(BanditEstimator):  # FIXME: this function needs work
 
-    def __init__(self, k, d, opt_class):
+    def __init__(self, k, d):
         super().__init__(k, d)
 
         self.obs = [DataStore(d) for _ in range(k)]
-        self.opts = [opt_class() for _ in range(k)]
-        self.arms = np.zeros((k, d))
         self.dirty = np.zeros((k, ))
 
     def add_obs(self, feedback: CtxFb):
@@ -166,36 +162,19 @@ class KNNEstimator(LinearEstimator):  # FIXME: this function needs work
         self.obs[arm].add_obs(ctx, rew)
         self.dirty[arm] = 1
 
+    def predict_reward(self, arm: int, spec: CtxSpec):
         xs, ys = self.obs[arm].get_obs()
 
-        if xs.shape[0] == 1:
-            self.arms[arm], _ = xs, ys
-            self.dirty[arm] = 0
-
-            return self.arms[arm]
-
+        if xs.shape[0] <= 5:
+            return 0
         else:
-            if xs.shape[0] > 1 & xs.shape[0] < 5:
-                kn_val = xs.shape[0] - 1
+            ctx = spec.ctx
 
-            else:
+            neigh = KNR(n_neighbors=5, weights='distance')
 
-                kn_val = 5
+            neigh.fit(xs, ys)
 
-            # Scale to N(0,1)
-            scaler = StandardScaler()
-            scaler.fit(xs)
-            xsscaled = scaler.transform(X=xs)
+            y1 = neigh.predict(np.array([ctx]))[0]
 
-            # rbfdist = distance_metrics.rbf_kernel(xsscaled)
+            return y1
 
-            # calculate "kn"-nearest neighbor groups
-            # neigh = KNR(n_neighbors=kn, weights='distance', metric=rbfdist)
-            neigh = KNR(n_neighbors = kn_val, weights = 'distance')
-            neigh.fit(xsscaled, ys)
-            y1 = neigh.predict(xsscaled)  # FIXME: you predict on the same data that you trained the KNN model on?
-
-            self.arms[arm], _ = xs, y1
-            self.dirty[arm] = 0
-
-        return self.arms[arm]

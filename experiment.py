@@ -38,10 +38,9 @@ def create_knn_bandit(k, d, h, q):  # FIXME
     from policies.two_phase.estimators import KNNEstimator as Estimator
     from policies.two_phase import ThresholdSelector as Selector
     from policies.two_phase import RandomStrategy as Strategy
-    from optimizers import KNNOpt as Opt
 
-    f_est = Estimator(k, d, Opt)
-    a_est = Estimator(k, d, Opt)
+    f_est = Estimator(k, d)
+    a_est = Estimator(k, d)
 
     # strategy = Strategy(k, q)
     strategy = Strategy(k, Strategy.pow_prob(q, -1))
@@ -232,12 +231,12 @@ def run_all(env, horizon):
         # 'ucb-b-0.01': create_ucb_ols_bandit(k, d, h, 0.01),
         # 'ucb-b-0.1': create_ucb_ols_bandit(k, d, h, 0.1),
         # 'ucb-b-1': create_ucb_ols_bandit(k, d, h, 1),
-        'ts-imitator': create_thompson_sampling_imitator(k, d, h),
-        'smart-ts-imitator-0.02': create_thompson_sampling_imitator2(k, d, 0.02),
-        'smart-ts-imitator-0.1': create_thompson_sampling_imitator2(k, d, 0.1),
-        'smart-ts-imitator-1': create_thompson_sampling_imitator2(k, d, 1),
-        'smart-ts-imitator-10': create_thompson_sampling_imitator2(k, d, 10),
-        'smart-ucb': create_smart_bandit(k, d, 0.1),
+        # 'ts-imitator': create_thompson_sampling_imitator(k, d, h),
+        # 'smart-ts-imitator-0.02': create_thompson_sampling_imitator2(k, d, 0.02),
+        # 'smart-ts-imitator-0.1': create_thompson_sampling_imitator2(k, d, 0.1),
+        # 'smart-ts-imitator-1': create_thompson_sampling_imitator2(k, d, 1),
+        # 'smart-ts-imitator-10': create_thompson_sampling_imitator2(k, d, 10),
+        # 'smart-ucb': create_smart_bandit(k, d, 0.1),
         # 'ts-imitator-0.1': create_thompson_sampling_imitator(k, d, 0.1),
         # 'ts-imitator-1': create_thompson_sampling_imitator(k, d, 1),
         # 'ts-imitator-10': create_thompson_sampling_imitator(k, d, 10),
@@ -249,7 +248,7 @@ def run_all(env, horizon):
         # 'greedy-bandit-q-10': create_greedy_bandit(k, d, h, 10),
         # 'greedy-bandit-q-100': create_greedy_bandit(k, d, h, 100),
         # 'thompson': create_thompson_sampling(k, d, sd),
-        'lasso-bandit': create_lasso_bandit(k, d, h, 1),
+        # 'lasso-bandit': create_lasso_bandit(k, d, h, 1),
         'knn': create_knn_bandit(k, d, h, 1), # FIXME
         #  'rf': create_rf_bandit(k, d, h, 1), # FIXME
     }

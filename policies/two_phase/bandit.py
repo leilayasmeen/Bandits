@@ -65,7 +65,7 @@ class TwoPhaseBandit(FiniteActionPolicy): # use to define bandit
         self.selection = self.selector.select(spec)
 
         return max(self.selection,
-                   key=lambda i: spec.ctx @ self.a_est[i])
+                   key=lambda i: self.a_est.predict_reward(i, spec))
 
 
 class TwoPhaseBanditMetric:
