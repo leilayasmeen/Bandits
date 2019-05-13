@@ -28,9 +28,9 @@ class ContextualEnv(Environment):
         return self.max_rew - self.mean_rews
 
     def create_spec(self):
-        ctx = npr.randn(self.d)  # K x d data generated here.
+        ctx = npr.randn(self.d)  # Note to self: K x d data generated here. K = number of arms, d = dimensions
 
-        self.mean_rews = self.arms.dot(ctx) # adjust how reward generated - e.g. relu. np.heaviside(ctx, 0)
+        self.mean_rews = self.arms.dot(ctx) # FIXME: adjust how reward generated - e.g. relu. np.heaviside(ctx, 0)
         self.max_rew = np.max(self.mean_rews)
 
         return ContextualSpec(self.t, ctx)
@@ -47,7 +47,7 @@ class ContextualEnv(Environment):
 
         mean = mean_rews[arm]
         noise = npr.randn() * self.sd
-        rew = mean + noise
+        rew = mean + noise # FIXME: is this supposed to be adjusted if I want non-linear rewards?
 
         return ContextualFeedback(spec, arm, rew, noise, max_rew)
 
