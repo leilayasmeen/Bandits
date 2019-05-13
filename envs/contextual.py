@@ -30,7 +30,8 @@ class ContextualEnv(Environment):
     def create_spec(self):
         ctx = npr.randn(self.d)  # Note to self: K x d data generated here. K = number of arms, d = dimensions
 
-        self.mean_rews = self.arms.dot(ctx) # FIXME: adjust how reward generated - e.g. relu. np.heaviside(ctx, 0)
+        #self.mean_rews = self.arms.dot(ctx)
+        self.mean_rews = np.linalg.norm(np.multiply(self.arms, ctx[np.newaxis, :]), ord=1, axis=1)
         self.max_rew = np.max(self.mean_rews)
 
         return ContextualSpec(self.t, ctx)
