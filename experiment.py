@@ -253,7 +253,7 @@ def run_all(env, horizon):
         # 'thompson': create_thompson_sampling(k, d, sd),
         'lasso-bandit': create_lasso_bandit(k, d, h, 1),
         'knn': create_knn_bandit(k, d, h, 1),
-        'rf': create_rf_bandit(k, d, h, 1), # FIXME
+        #'rf': create_rf_bandit(k, d, h, 1), # FIXME
     }
 
     elapsed = {name: 0 for name in algorithms}
