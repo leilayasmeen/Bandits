@@ -10,6 +10,7 @@ from envs.contextual import ContextualSpec as CtxSpec
 from envs.contextual import ContextualFeedback as CtxFb
 
 from sklearn.neighbors import KNeighborsRegressor as KNR
+from sklearn.ensemble import RandomForestRegressor as RFReg
 
 
 class BanditEstimator:
@@ -146,7 +147,7 @@ class LassoEstimator(LinearEstimator):
         return self.arms[arm]
 
 
-class KNNEstimator(BanditEstimator):  # FIXME: this function needs work
+class KNNEstimator(BanditEstimator):
 
     def __init__(self, k, d):
         super().__init__(k, d)
@@ -178,4 +179,37 @@ class KNNEstimator(BanditEstimator):  # FIXME: this function needs work
             y1 = neigh.predict(np.array([ctx]))[0]
 
             return y1
+
+class RFEstimator(BanditEstimator):
+
+    def __init__(self, k, d):
+        super().__init__(k, d)
+
+        self.xs = [[] for _ in range(k)]
+        self.ys = [[] for _ in range(k)]
+
+    def add_obs(self, feedback: CtxFb):
+        arm = feedback.arm
+        ctx = feedback.ctx
+        rew = feedback.rew
+
+        self.xs[arm].append(ctx)
+        self.ys[arm].append(rew)
+
+    def predict_reward(self, arm: int, spec: CtxSpec):
+        xs = self.xs[arm]
+        ys = self.ys[arm]
+
+        ctx = spec.ctx
+
+        regr = RFReg()
+
+        regr.fit(xs, ys)
+
+        y1 = regr.predict(np.array([ctx]))[0] # FIXME
+
+        return y1
+
+
+
 
