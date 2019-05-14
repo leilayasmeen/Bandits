@@ -48,7 +48,7 @@ class ContextualEnv(Environment):
 
         mean = mean_rews[arm]
         noise = npr.randn() * self.sd
-        rew = mean + noise # FIXME: is this supposed to be adjusted if I want non-linear rewards?
+        rew = mean + noise 
 
         return ContextualFeedback(spec, arm, rew, noise, max_rew)
 
