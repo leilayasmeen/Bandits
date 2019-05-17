@@ -11,7 +11,7 @@ def create_env(file, sd):
     from envs import ContextualEnv
 
     # arms = np.loadtxt(file, delimiter=',')
-    arms = npr.normal(size=(10, 5))  # use this to set k, then d
+    arms = npr.normal(size=(10, 50))  # use this to set k, then d
 
     return ContextualEnv(arms, sd)
 
@@ -253,7 +253,7 @@ def run_all(env, horizon):
         # 'thompson': create_thompson_sampling(k, d, sd),
         'lasso-bandit': create_lasso_bandit(k, d, h, 1),
         'knn': create_knn_bandit(k, d, h, 1),
-        #'rf': create_rf_bandit(k, d, h, 1), # FIXME
+        'rf': create_rf_bandit(k, d, h, 1), # FIXME
     }
 
     elapsed = {name: 0 for name in algorithms}
@@ -333,7 +333,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--arms', type=str)  # , required=True)
     parser.add_argument('--sd', type=float, default=1.)
-    parser.add_argument('--run', type=int, default=5000)  # change this to 1000 before obtaining final results
+    parser.add_argument('--run', type=int, default=5)  # change this to 1000 before obtaining final results
     parser.add_argument('--horizon', type=int, default=1000)
     parser.add_argument('--output', type=str, default=None)
     parser.add_argument('--seed', type=int, default=314159265)
