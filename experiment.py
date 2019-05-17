@@ -333,7 +333,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--arms', type=str)  # , required=True)
     parser.add_argument('--sd', type=float, default=1.)
-    parser.add_argument('--run', type=int, default=5)  # change this to 1000 before obtaining final results
+    parser.add_argument('--run', type=int, default=2000)  # change this to 1000 before obtaining final results
     parser.add_argument('--horizon', type=int, default=1000)
     parser.add_argument('--output', type=str, default=None)
     parser.add_argument('--seed', type=int, default=314159265)
