@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c991643-6c62-47db-bdfc-7a5f88e4b3a4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,8 +49,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/policies/two_phase/estimators.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1833">
-              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="317">
+              <caret line="198" column="54" lean-forward="true" selection-start-line="198" selection-start-column="54" selection-end-line="198" selection-end-column="54" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -60,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/experiment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3310">
-              <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
+            <state relative-caret-position="654">
+              <caret line="120" column="46" selection-start-line="120" selection-start-column="46" selection-end-line="120" selection-end-column="46" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -72,7 +73,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gen-plots.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
+            <state relative-caret-position="390">
               <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -117,10 +118,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1133" />
-    <option name="height" value="804" />
+    <option name="width" value="1440" />
+    <option name="height" value="801" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -208,18 +209,20 @@
       <workItem from="1557788851700" duration="466000" />
       <workItem from="1557804072043" duration="1695000" />
       <workItem from="1558022906514" duration="429000" />
-      <workItem from="1558055787909" duration="942000" />
+      <workItem from="1558055787909" duration="2527000" />
+      <workItem from="1558316858906" duration="281000" />
+      <workItem from="1558585122070" duration="1119000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26900000" />
+    <option name="totallyTimeSpent" value="29885000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="801" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="801" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19241774" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1981402" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -321,16 +324,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/policies/two_phase/selectors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="10" selection-start-column="10" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gen-plots.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
+        <state relative-caret-position="390">
           <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -338,10 +334,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/policies/two_phase/selectors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="10" selection-start-column="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/experiment.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3310">
-          <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
+        <state relative-caret-position="654">
+          <caret line="120" column="46" selection-start-line="120" selection-start-column="46" selection-end-line="120" selection-end-column="46" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -350,8 +353,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/policies/two_phase/estimators.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1833">
-          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="317">
+          <caret line="198" column="54" lean-forward="true" selection-start-line="198" selection-start-column="54" selection-end-line="198" selection-end-column="54" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

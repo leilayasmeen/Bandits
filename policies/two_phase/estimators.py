@@ -200,15 +200,18 @@ class RFEstimator(BanditEstimator):
         xs = self.xs[arm]
         ys = self.ys[arm]
 
-        ctx = spec.ctx
+        if len(xs) <= 5:
+            return 0
+        else:
+            ctx = spec.ctx
 
-        regr = RFReg()
+            regr = RFReg()
 
-        regr.fit(xs, ys)
+            regr.fit(xs, ys)
 
-        y1 = regr.predict(np.array([ctx]))[0] # FIXME
+            y1 = regr.predict(np.array([ctx]))[0]
 
-        return y1
+            return y1
 
 
 

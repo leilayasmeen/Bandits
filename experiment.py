@@ -6,6 +6,11 @@ from time import time
 from utils import MetricAggregator
 from argparse import ArgumentParser
 
+# import warnings filter
+from warnings import simplefilter
+# ignore all future warnings
+simplefilter(action='ignore', category=FutureWarning)
+
 
 def create_env(file, sd):
     from envs import ContextualEnv
@@ -20,12 +25,14 @@ def create_ols_bandit(k, d, h, q):
     from policies.two_phase import TwoPhaseBandit
     from policies.two_phase import OlsEstimator as Estimator
     from policies.two_phase import ThresholdSelector as Selector
-    from policies.two_phase import DeterministicStrategy as Strategy
+    #from policies.two_phase import DeterministicStrategy as Strategy
+    from policies.two_phase import RandomStrategy as Strategy
 
     f_est = Estimator(k, d, update_always=True)
     a_est = Estimator(k, d, update_always=True)
 
-    strategy = Strategy(k, q)
+    # strategy = Strategy(k, q)
+    strategy = Strategy(k, Strategy.pow_prob(q, -1))
     selector = Selector(f_est, h)
 
     policy = TwoPhaseBandit(k, selector, strategy, f_est, a_est)
@@ -37,14 +44,14 @@ def create_knn_bandit(k, d, h, q):
     from policies.two_phase import TwoPhaseBandit
     from policies.two_phase.estimators import KNNEstimator as Estimator
     from policies.two_phase import ThresholdSelector as Selector
-    from policies.two_phase import DeterministicStrategy as Strategy
-    # from policies.two_phase import RandomStrategy as Strategy
+    # from policies.two_phase import DeterministicStrategy as Strategy
+    from policies.two_phase import RandomStrategy as Strategy
 
     f_est = Estimator(k, d)
     a_est = Estimator(k, d)
 
-    strategy = Strategy(k, q)
-    # strategy = Strategy(k, Strategy.pow_prob(q, -1))
+    # strategy = Strategy(k, q)
+    strategy = Strategy(k, Strategy.pow_prob(q, -1))
     selector = Selector(f_est, h)
 
     policy = TwoPhaseBandit(k, selector, strategy, f_est, a_est)
@@ -52,19 +59,19 @@ def create_knn_bandit(k, d, h, q):
     return policy
 
 
-def create_rf_bandit(k, d, h, q):  # FIXME
+def create_rf_bandit(k, d, h, q):
     from policies.two_phase import TwoPhaseBandit
     from policies.two_phase.estimators import RFEstimator as Estimator
     from policies.two_phase import ThresholdSelector as Selector
-    from policies.two_phase import DeterministicStrategy as Strategy
-    # from policies.two_phase import RandomStrategy as Strategy
+    # from policies.two_phase import DeterministicStrategy as Strategy
+    from policies.two_phase import RandomStrategy as Strategy
     from optimizers import RFOpt as Opt
 
     f_est = Estimator(k, d)
     a_est = Estimator(k, d)
 
-    strategy = Strategy(k, q)
-    # strategy = Strategy(k, Strategy.pow_prob(q, -1))
+    # strategy = Strategy(k, q)
+    strategy = Strategy(k, Strategy.pow_prob(q, -1))
     selector = Selector(f_est, h)
 
     policy = TwoPhaseBandit(k, selector, strategy, f_est, a_est)
@@ -93,15 +100,15 @@ def create_lasso_bandit(k, d, h, q):
     from policies.two_phase import TwoPhaseBandit
     from policies.two_phase import LassoEstimator as Estimator
     from policies.two_phase import ThresholdSelector as Selector
-    #from policies.two_phase import RandomStrategy as Strategy
-    from policies.two_phase import DeterministicStrategy as Strategy
+    from policies.two_phase import RandomStrategy as Strategy
+    # from policies.two_phase import DeterministicStrategy as Strategy
     from optimizers import LassoOpt as Opt
 
     f_est = Estimator(k, d, Opt)
     a_est = Estimator(k, d, Opt)
 
-    #strategy = Strategy(k, Strategy.pow_prob(q, -1))
-    strategy = Strategy(k, q)
+    strategy = Strategy(k, Strategy.pow_prob(q, -1))
+    # strategy = Strategy(k, q)
     selector = Selector(f_est, h)
 
     policy = TwoPhaseBandit(k, selector, strategy, f_est, a_est)
@@ -253,7 +260,7 @@ def run_all(env, horizon):
         # 'thompson': create_thompson_sampling(k, d, sd),
         'lasso-bandit': create_lasso_bandit(k, d, h, 1),
         'knn': create_knn_bandit(k, d, h, 1),
-        'rf': create_rf_bandit(k, d, h, 1), # FIXME
+        'rf': create_rf_bandit(k, d, h, 1),
     }
 
     elapsed = {name: 0 for name in algorithms}
@@ -333,7 +340,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--arms', type=str)  # , required=True)
     parser.add_argument('--sd', type=float, default=1.)
-    parser.add_argument('--run', type=int, default=2000)  # change this to 1000 before obtaining final results
+    parser.add_argument('--run', type=int, default=50)  # change this to 1000 before obtaining final results
     parser.add_argument('--horizon', type=int, default=1000)
     parser.add_argument('--output', type=str, default=None)
     parser.add_argument('--seed', type=int, default=314159265)
