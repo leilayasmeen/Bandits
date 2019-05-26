@@ -16,7 +16,7 @@ def create_env(file, sd):
     from envs import ContextualEnv
 
     # arms = np.loadtxt(file, delimiter=',')
-    arms = npr.normal(size=(10, 50))  # use this to set k, then d
+    arms = npr.normal(size=(10, 5))  # use this to set k, then d
 
     return ContextualEnv(arms, sd)
 
@@ -341,7 +341,7 @@ if __name__ == '__main__':
     parser.add_argument('--arms', type=str)  # , required=True)
     parser.add_argument('--sd', type=float, default=1.)
     parser.add_argument('--run', type=int, default=50)  # change this to 1000 before obtaining final results
-    parser.add_argument('--horizon', type=int, default=1000)
+    parser.add_argument('--horizon', type=int, default=5000)
     parser.add_argument('--output', type=str, default=None)
     parser.add_argument('--seed', type=int, default=314159265)
 

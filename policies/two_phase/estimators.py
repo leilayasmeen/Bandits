@@ -12,6 +12,8 @@ from envs.contextual import ContextualFeedback as CtxFb
 from sklearn.neighbors import KNeighborsRegressor as KNR
 from sklearn.ensemble import RandomForestRegressor as RFReg
 
+from sklearn.model_selection import GridSearchCV
+
 
 class BanditEstimator:
 
@@ -215,4 +217,57 @@ class RFEstimator(BanditEstimator):
 
 
 
+class KNNCVEstimator(KNNEstimator):
 
+    def __init__(self, k, d, j=5, knlen=10):
+        super().__init__(k, d)
+
+        self.xs = [[] for _ in range(k)]
+        self.ys = [[] for _ in range(k)]
+
+    def add_obs(self, feedback: CtxFb):
+        arm = feedback.arm
+        ctx = feedback.ctx
+        rew = feedback.rew
+
+        self.xs[arm].append(ctx)
+        self.ys[arm].append(rew)
+
+    def cv_estimator(self):
+
+        knntest = KNR()
+
+        # dict of values of kn to test
+        cvgrid = {‘n_neighbors’: np.linspace(0, len(xs)/10), num = min(5,20), dtype=np.uint8} # change to size of dataset / 10 in regularly spaced increments
+
+        # use gridsearch to test all values for n_neighbors
+        knn_gridsearch= GridSearchCV(knntest, cvgrid, cv=j)
+
+        # fit model to data
+        knn_gridsearch.fit(xs, ys)
+
+        # best n_neighbors value
+        knstar = knn_gridsearch.best_params_
+
+        # https://towardsdatascience.com/building-a-k-nearest-neighbors-k-nn-model-with-scikit-learn-51209555453a
+
+        return knstar
+
+    def predict_reward(self, arm: int, spec: CtxSpec):
+        xs = self.xs[arm]
+        ys = self.ys[arm]
+
+        if len(xs) <= 10:
+            return 0
+        else:
+            ctx = spec.ctx
+
+            knstar = cv_estimator() # FIXME: should I call the function here?
+
+            neigh = KNR(n_neighbors=knstar, weights='distance')
+
+            neigh.fit(xs, ys)
+
+            y1 = neigh.predict(np.array([ctx]))[0]
+
+            return y1
