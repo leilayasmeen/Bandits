@@ -1,5 +1,7 @@
 import abc
 
+from math import log
+
 import numpy as np
 import numpy.linalg as npl
 
@@ -189,6 +191,7 @@ class RFEstimator(BanditEstimator):
 
         self.xs = [[] for _ in range(k)]
         self.ys = [[] for _ in range(k)]
+        self.regr = None
 
     def add_obs(self, feedback: CtxFb):
         arm = feedback.arm
@@ -199,6 +202,8 @@ class RFEstimator(BanditEstimator):
         self.ys[arm].append(rew)
 
     def predict_reward(self, arm: int, spec: CtxSpec):
+        t = spec.t + 2
+
         xs = self.xs[arm]
         ys = self.ys[arm]
 
@@ -207,23 +212,27 @@ class RFEstimator(BanditEstimator):
         else:
             ctx = spec.ctx
 
-            regr = RFReg()
+            # regr = RFReg()
+            if self.regr is None:
+                self.regr = RFReg()
+                self.regr.fit(xs, ys)
+            elif int(log(t) / log(1.5)) < int(log(t + 1) / log(1.5)):
+                self.regr.fit(xs, ys)
 
-            regr.fit(xs, ys)
-
-            y1 = regr.predict(np.array([ctx]))[0]
+            y1 = self.regr.predict(np.array([ctx]))[0]
 
             return y1
 
+class KNNCVEstimator(BanditEstimator):
 
-
-class KNNCVEstimator(KNNEstimator):
-
-    def __init__(self, k, d, j=5, knlen=10):
+    def __init__(self, k, d):
         super().__init__(k, d)
 
         self.xs = [[] for _ in range(k)]
         self.ys = [[] for _ in range(k)]
+
+        self.j = 5
+        self.knlen = 10
 
     def add_obs(self, feedback: CtxFb):
         arm = feedback.arm
@@ -233,38 +242,30 @@ class KNNCVEstimator(KNNEstimator):
         self.xs[arm].append(ctx)
         self.ys[arm].append(rew)
 
-    def cv_estimator(self):
-
-        knntest = KNR()
-
-        # dict of values of kn to test
-        cvgrid = {‘n_neighbors’: np.linspace(0, len(xs)/10), num = min(5,20), dtype=np.uint8} # change to size of dataset / 10 in regularly spaced increments
-
-        # use gridsearch to test all values for n_neighbors
-        knn_gridsearch= GridSearchCV(knntest, cvgrid, cv=j)
-
-        # fit model to data
-        knn_gridsearch.fit(xs, ys)
-
-        # best n_neighbors value
-        knstar = knn_gridsearch.best_params_
-
-        # https://towardsdatascience.com/building-a-k-nearest-neighbors-k-nn-model-with-scikit-learn-51209555453a
-
-        return knstar
-
     def predict_reward(self, arm: int, spec: CtxSpec):
         xs = self.xs[arm]
         ys = self.ys[arm]
 
-        if len(xs) <= 10:
+        if len(xs) <= self.knlen:
             return 0
         else:
             ctx = spec.ctx
 
-            knstar = cv_estimator() # FIXME: should I call the function here?
+            knntest = KNR()
 
-            neigh = KNR(n_neighbors=knstar, weights='distance')
+            # dict of values of kn to test
+            cvgrid = {'n_neighbors': np.arange(1,int(len(xs)/self.knlen)+1)}
+
+            # use gridsearch to test all values for n_neighbors
+            knn_gridsearch = GridSearchCV(knntest, cvgrid, cv=self.j, iid=True)
+
+            # fit model to data
+            knn_gridsearch.fit(xs, ys)
+
+            # best n_neighbors value
+            knstar = knn_gridsearch.best_params_
+
+            neigh = KNR(n_neighbors=knstar['n_neighbors'], weights='distance')
 
             neigh.fit(xs, ys)
 
