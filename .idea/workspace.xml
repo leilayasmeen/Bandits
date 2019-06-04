@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c991643-6c62-47db-bdfc-7a5f88e4b3a4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/policies/two_phase/estimators.py" beforeDir="false" afterPath="$PROJECT_DIR$/policies/two_phase/estimators.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -62,8 +60,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/experiment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="293" column="38" lean-forward="true" selection-start-line="293" selection-start-column="38" selection-end-line="293" selection-end-column="38" />
+            <state relative-caret-position="365">
+              <caret line="250" column="60" lean-forward="true" selection-start-line="250" selection-start-column="60" selection-end-line="250" selection-end-column="60" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -216,12 +214,12 @@
       <workItem from="1558585122070" duration="2236000" />
       <workItem from="1558906649949" duration="2672000" />
       <workItem from="1558974694114" duration="988000" />
-      <workItem from="1558987245507" duration="3908000" />
+      <workItem from="1558987245507" duration="6267000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38570000" />
+    <option name="totallyTimeSpent" value="40929000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="798" extended-state="0" />
@@ -358,8 +356,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/experiment.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="293" column="38" lean-forward="true" selection-start-line="293" selection-start-column="38" selection-end-line="293" selection-end-column="38" />
+        <state relative-caret-position="365">
+          <caret line="250" column="60" lean-forward="true" selection-start-line="250" selection-start-column="60" selection-end-line="250" selection-end-column="60" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

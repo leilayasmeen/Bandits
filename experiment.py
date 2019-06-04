@@ -242,7 +242,8 @@ def run_all(env, horizon):
     h = 1.5
 
     algorithms = {
-        'ols-q-1': create_ols_bandit(k, d, h, 1),
+        # 'ols-q-1': create_ols_bandit(k, d, h, 1),
+        'ols-q-01': create_ols_bandit(k, d, h, 0.1),
         # 'ols-bandit-q-2': create_ols_bandit(k, d, h, 2),
         # 'ols-q-4': create_ols_bandit(k, d, h, 4),
         # 'ols-bandit-q-8': create_ols_bandit(k, d, h, 8),
@@ -277,26 +278,13 @@ def run_all(env, horizon):
         # 'greedy-bandit-q-100': create_greedy_bandit(k, d, h, 100),
         # 'thompson': create_thompson_sampling(k, d, sd),
         # 'lasso-bandit': create_lasso_bandit(k, d, h, 1),
-        'lasso-bandit_dim50': create_lasso_bandit(k, 50, h, 1),
-        ## 'lasso-bandit_q01_dim50': create_lasso_bandit(k, 50, h, 0.1),
         # 'knn_q1': create_knn_bandit(k, d, h, 1),
-        # 'knn_q1_dim5': create_knn_bandit(k, 5, h, 1),
-        'knn_q1_dim50': create_knn_bandit(k, 50, h, 1),
-        ## 'knn_q01_dim50': create_knn_bandit(k, 50, h, 0.1),
         # 'knn_q05': create_knn_bandit(k, d, h, 0.5),
         # 'knn_q01': create_knn_bandit(k, d, h, 0.1),
         # 'rf_q1': create_rf_bandit(k, d, h, 1),
-        # 'rf_q1_dim5': create_rf_bandit(k, 5, h, 1),
-        'rf_q1_dim50': create_rf_bandit(k, 50, h, 1),
-        ## 'rf_q01_dim50': create_rf_bandit(k, 50, h, 0.1),
         # 'rf_q05': create_rf_bandit(k, d, h, 0.5),
         # 'rf_q01': create_rf_bandit(k, d, h, 0.1),
         # 'knn-cv_q1': create_knn_cv_bandit(k, d, h, 1),
-        # 'knn-cv_q1_dim5': create_knn_cv_bandit(k, 5, h, 1),
-        'knn-cv_q1_dim50': create_knn_cv_bandit(k, 50, h, 1),
-        ## 'knn-cv_q01_dim50': create_knn_cv_bandit(k, 50, h, 0.1),
-        # 'knn-cv_q05': create_knn_cv_bandit(k, d, h, 0.5),
-        # 'knn-cv_q01': create_knn_cv_bandit(k, d, h, 0.1),
     }
 
     elapsed = {name: 0 for name in algorithms}
@@ -376,7 +364,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--arms', type=str)  # , required=True)
     parser.add_argument('--sd', type=float, default=1.)
-    parser.add_argument('--run', type=int, default=5)  # change this to 50 before obtaining final results
+    parser.add_argument('--run', type=int, default=50)  # change this to 50 before obtaining final results
     parser.add_argument('--horizon', type=int, default=500)
     parser.add_argument('--output', type=str, default=None)
     parser.add_argument('--seed', type=int, default=314159265)
